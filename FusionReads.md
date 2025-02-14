@@ -1,8 +1,8 @@
 # These codes were used to identify vector-genome fusion reads, through three rounds of mapping
 There are 6 types of reads: 
-|Yes|Yes|Yes|Yes|Yes|Yes|
-|---|---|---|---|---|---|
-|Junk|Vector|Genome|Vector-junk|Genome-junk|Genome-vector|
+|Yes|Yes|Yes|Yes|Yes|Yes|Yes|
+|---|---|---|---|---|---|---|
+|Junk|Vector|Genome|Vector-junk|Genome-junk|Genome-vector|Vector-vector|
 
 *Assuming that junk may not be able to map to either genome and vector*
 
