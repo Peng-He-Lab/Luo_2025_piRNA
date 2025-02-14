@@ -8,13 +8,14 @@ There are 6 types of reads:
 
 ## Round 1: Get reads that contain vector sequences
 ### Extract the 20bp at 5' end
+*Base pair we extract can be changed
 ```
-#trimfastq.py can be found here: https://github.com/brianpenghe/fastq-scripts/blob/master/trimfastq.py
+#updated trimfastq.py for python3
 python trimfastq.py alltrimmedfastq 20 > 20fiveprime.fastq
 ```
 ### Map to vector and extract mapped reads
 ```
-bowtie Original_vector -p 8 -v 2  -k 1 -t --sam-nh -y -q --al alltrimmedVectorfastq 20fiveprime.fastq
+bowtie Original_vector -p 8 -p 8 --very-sensitive -k 1 --time -q --al alltrimmedVectorfastq -U 20fiveprime.fastq -S 20fiveprime.sam
 ```
 ### Retrieve the original full length of the mapped reads
 ```
@@ -23,9 +24,9 @@ grep -f <(cat alltrimmedVectorfastq | paste - - - - | cut -f 1) \
 > alltrimmedVectorFullLengthfastq
 ```
 Now we have:
-|No|Yes|No|Yes|No|Yes|
-|---|---|---|---|---|---|
-|~~Junk~~|Vector|~~Genome~~|Vector-junk|~~Genome-junk~~|Genome-vector|
+|No|Yes|No|Yes|No|Yes|Yes|
+|---|---|---|---|---|---|---｜
+|~~Junk~~|Vector|~~Genome~~|Vector-junk|~~Genome-junk~~|Genome-vector|Vector-vector|
 
 ## Round 2: Get reads that aren't just about vector sequences
 ### Map the previously selected reads to vector again, but with full length
