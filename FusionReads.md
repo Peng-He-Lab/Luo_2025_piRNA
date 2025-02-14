@@ -42,26 +42,22 @@ bowtie2 Original_vector -p 8 --very-sensitive -k 1 --time -q --un 3primeVectorUn
 ```
 We take the unmapped reads.
 Now we have:
-|No|No|No|Yes|No|Yes|
-|---|---|---|---|---|---|
-|~~Junk~~|~~Vector~~|~~Genome~~|Vector-junk|~~Genome-junk~~|Genome-vector|
+|No|No|No|Yes|No|Yes|No|
+|---|---|---|---|---|---|---|
+|~Junk~|~Vector~|~Genome~|Vector-junk|~Genome-junk~|Genome-vector|~Vector-vector~|
 
 ## Round 3: Get reads that contain genome sequences
-### Extract the 20bp at 3' end
+
+### Map to dm6 genome
 ```
-paste <(cat alltrimmedVectorUnmapfastq | paste - - | cut -f1 | tr "\t" "\n") \
-<(cat alltrimmedVectorUnmapfastq | paste - - | cut -f2 | tr "\t" "\n" | grep -o '.\{'20'\}$' ) | tr "\t" "\n" > 20threeprime.fastq
- ```
-### Map to dm3 genome
-```
-bowtie genome/bowtie-indexes/dm3 -p 8 -v 0 -k 1 -m 1 -t --sam-nh --best --strata -y -q --sam 20threeprime.fastq | \
-samtools-0.1.8/samtools view -bT genome/bowtie-indexes/dm3.fa - | \
-samtools-0.1.16/bin/samtools sort - 20threeprime.dm3.bam
-samtools-0.1.16/bin/samtools index 20threeprime.dm3.bam.bam
+bowtie2 genome/bowtie-indexes/dm6 -p 8 --very-sensitive -k 1 -q -U 3primeVectorUnmapfastq -S 3primeVectorUnmap.sam
+samtools view -bT genome/bowtie-indexes/dm6.fa 3primeVectorUnmap.sam | \
+samtools sort -o 3primeVectorUnmap.dm6.bam
+samtools index 3primeVectorUnmap.dm6.bam
 ```
 Now we have:
-|No|No|No|No|No|Yes|
-|---|---|---|---|---|---|
-|~~Junk~~|~~Vector~~|~~Genome~~|~~Vector-junk~~|~~Genome-junk~~|Genome-vector|
+|No|No|No|No|No|Yes|No|
+|---|---|---|---|---|---|---|
+|~Junk~|~Vector~|~Genome~|~Vector-junk~|~Genome-junk~|Genome-vector|~Vector-vector~|
 
 Then the bam files can be loaded onto genome browser to see whether the fusion reads land 
