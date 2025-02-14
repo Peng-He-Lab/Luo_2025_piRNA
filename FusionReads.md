@@ -1,5 +1,5 @@
 # These codes were used to identify vector-genome fusion reads, through three rounds of mapping
-There are 6 types of reads: 
+There are 7 types of reads: 
 |Yes|Yes|Yes|Yes|Yes|Yes|Yes|
 |---|---|---|---|---|---|---|
 |Junk|Vector|Genome|Vector-junk|Genome-junk|Genome-vector|Vector-vector|
@@ -15,7 +15,7 @@ python trimfastq.py alltrimmedfastq 20 > 20fiveprime.fastq
 ```
 ### Map to vector and extract mapped reads
 ```
-bowtie Original_vector -p 8 -p 8 --very-sensitive -k 1 --time -q --al alltrimmedVectorfastq -U 20fiveprime.fastq -S 20fiveprime.sam
+bowtie2 Original_vector -p 8 -p 8 --very-sensitive -k 1 --time -q --al alltrimmedVectorfastq -U 20fiveprime.fastq -S 20fiveprime.sam
 ```
 ### Retrieve the original full length of the mapped reads
 ```
@@ -25,13 +25,20 @@ grep -f <(cat alltrimmedVectorfastq | paste - - - - | cut -f 1) \
 ```
 Now we have:
 |No|Yes|No|Yes|No|Yes|Yes|
-|---|---|---|---|---|---|---｜
-|~~Junk~~|Vector|~~Genome~~|Vector-junk|~~Genome-junk~~|Genome-vector|Vector-vector|
+|---|---|---|---|---|---|---|
+|~Junk~|Vector|~Genome~|Vector-junk|~Genome-junk~|Genome-vector|Vector-vector|
 
-## Round 2: Get reads that aren't just about vector sequences
-### Map the previously selected reads to vector again, but with full length
+## Round 2: Get reads that aren't just about vector sequences and vector-vector sequences
+### Extract the 20bp at 3' end
 ```
-bowtie Original_vector -p 8 -v 2  -k 1 -t --sam-nh -y -q --un alltrimmedVectorUnmapfastq alltrimmedVectorFullLengthfastq
+paste <(cat alltrimmedVectorFullLengthfastq | paste - - - - | cut -f1 | tr "\t" "\n") \
+    <(cat alltrimmedVectorFullLengthfastq | paste - - - - | cut -f2 | tr "\t" "\n" | grep -o '.\{20\}$' )\
+    <(cat alltrimmedVectorFullLengthfastq | paste - - - - | cut -f3 | tr "\t" "\n") \ 
+    <(cat alltrimmedVectorFullLengthfastq | paste - - - - | cut -f4 | tr "\t" "\n" | grep -o '.\{20\}$' ) | tr "\t" "\n" > 20threeprime.fastq
+```
+### Map to vector index and get unmapped reads
+```
+bowtie2 Original_vector -p 8 --very-sensitive -k 1 --time -q --un 3primeVectorUnmapfastq -U 20threeprime.fastq -S /dev/null
 ```
 We take the unmapped reads.
 Now we have:
