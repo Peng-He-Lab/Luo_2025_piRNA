@@ -7,7 +7,7 @@
 
 [2. piRNA-seq codes](https://github.com/brianpenghe/Luo_2021_piRNA/blob/main/piRNA-seq.md)
 
-[3. Fusion-reads codes](https://github.com/brianpenghe/Luo_2021_piRNA/blob/main/FusionReads.md)
+[3. Fusion-reads codes](./FusionReads.md)
 
 [4. Total RNA-seq codes](https://github.com/brianpenghe/Luo_2021_piRNA/blob/main/totalRNA-seq.md)
 
