@@ -3,12 +3,12 @@
 ![image](https://github.com/brianpenghe/Luo_2021_piRNA/assets/4110443/6bf517bb-6a27-479a-8712-25370b9ef941)
 
 
-[1. ChIP-seq codes](https://github.com/brianpenghe/Luo_2021_piRNA/blob/main/ChIP-seq.md)
+[1. ChIP-seq codes](./ChIP-seq.md)
 
-[2. piRNA-seq codes](https://github.com/brianpenghe/Luo_2021_piRNA/blob/main/piRNA-seq.md)
+[2. piRNA-seq codes](./piRNA-seq.md)
 
 [3. Fusion-reads codes](./FusionReads.md)
 
-[4. Total RNA-seq codes](https://github.com/brianpenghe/Luo_2021_piRNA/blob/main/totalRNA-seq.md)
+[4. Total RNA-seq codes](./totalRNA-seq.md)
 
 [5. RIP-seq uses the adaptor trimming of the piRNA-seq codes and followed by a Total RNA-seq pipeline](https://github.com/brianpenghe/Luo_2021_piRNA)
